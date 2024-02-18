@@ -7,8 +7,9 @@
 }
 
 body {
-  background-color: var(--background-color);
+  background-color: var(--primary-background-color);
   color: var(--text-color);
+  margin-bottom: 100px;
 }
 
 .body-content {

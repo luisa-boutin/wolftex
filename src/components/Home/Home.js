@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import LatexRenderer from "./Latex";
+import LatexRenderer from "../LatexRenderer/LatexRenderer";
+import "./Home.css";
 
 const Home = () => {
   const [inputValue, setInputValue] = useState("");
@@ -14,15 +15,15 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="test-css">
       <div className="container my-5">
-        <div className="p-5 text-center bg-body-tertiary rounded-3">
+        <div id="greeting-card" className="p-5 text-center rounded-3">
           <h1 className="display-3">WolfTex.js</h1>
           <p className="m-5">Breve descritivo sobre a aplicação.</p>
-
           <div className="input-group mb-3">
             <input
               type="text"
+              id="wolframInput"
               className="form-control"
               placeholder="Wolfram code"
               aria-label="Wolfram code"
@@ -32,7 +33,7 @@ const Home = () => {
             />
             <div className="input-group-append">
               <button
-                className="btn btn-outline-secondary"
+                className="btn mx-2"
                 type="button"
                 id="button-translate"
                 onClick={handleButtonClick}>

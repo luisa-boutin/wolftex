@@ -1,17 +1,27 @@
-/* styles/themes.css */
-
 :root {
     /* Light theme colors */
-    --background-color: #ffffff;
-    --text-color: #000000;
-    --primary-color: #007bff;
-    /* Additional colors as needed */
+    --primary-background-color: #A686FC;
+    --secondary-background-color: #C4B2FF;
+    --tertiary-background-color: #8C66E7;
+    --text-color: #3B1A63;
+    --primary-button: #c296ff;
+    --placeholder: #5B25A7;
+    --navbar-footer: #d2b0ff;
+    --dropdown-bg-hover: #bda0ff;
+    --dropdown-text-hover: #412761;
+    --dropdown-active-text-color: #4b217e;
 }
 
 [data-theme="dark"] {
     /* Dark theme colors */
-    --background-color: #343a40;
-    --text-color: #ffffff;
-    --primary-color: #6c757d;
-    /* Additional colors as needed */
+    --primary-background-color: #593387;
+    --secondary-background-color: #3B1A63;
+    --tertiary-background-color: #472471;
+    --text-color: #C4B2FF;
+    --primary-button: #763DB7;
+    --placeholder: #AD60E9;
+    --navbar-footer: #251733;
+    --dropdown-bg-hover: #402f75;
+    --dropdown-text-hover: #dad0ff;
+    --dropdown-active-text-color: #af98fc;
 }

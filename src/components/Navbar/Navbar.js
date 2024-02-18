@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import "./Navbar.css";
 
-const BootstrapNavbar = () => {
+const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const changeTheme = (newTheme) => {
@@ -13,7 +14,7 @@ const BootstrapNavbar = () => {
   }, [theme]);
 
   return (
-    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light px-3">
+    <nav className="navbar fixed-top navbar-expand-lg px-3">
       <a className="navbar-brand" href="/">
         WolfTex.js
       </a>
@@ -31,7 +32,7 @@ const BootstrapNavbar = () => {
         <ul className="navbar-nav">
           <li className="nav-item active">
             <a className="nav-link" href="/">
-              Home <span className="sr-only">(current)</span>
+              Home
             </a>
           </li>
           <li className="nav-item">
@@ -56,7 +57,7 @@ const BootstrapNavbar = () => {
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false">
-                <i class="bi bi-palette"></i>&nbsp; Temas
+                <i className="bi bi-palette"></i>&nbsp; Temas
               </a>
               <div
                 className="dropdown-menu"
@@ -64,12 +65,12 @@ const BootstrapNavbar = () => {
                 <button
                   className="dropdown-item"
                   onClick={() => changeTheme("light")}>
-                  <i class="bi bi-sun"></i>&nbsp; Light
+                  <i className="bi bi-sun"></i>&nbsp; Claro
                 </button>
                 <button
                   className="dropdown-item"
                   onClick={() => changeTheme("dark")}>
-                  <i class="bi bi-moon-stars"></i>&nbsp; Dark
+                  <i className="bi bi-moon-stars"></i>&nbsp; Escuro
                 </button>
               </div>
             </li>
@@ -80,4 +81,4 @@ const BootstrapNavbar = () => {
   );
 };
 
-export default BootstrapNavbar;
+export default Navbar;

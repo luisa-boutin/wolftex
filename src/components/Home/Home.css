@@ -1,0 +1,17 @@
+#greeting-card {
+    background-color: var(--tertiary-background-color);
+}
+
+#wolframInput {
+ background-color: var(--secondary-background-color);
+}
+
+#button-translate {
+    background-color: var(--primary-button);
+    color: var(--text-color);
+}
+
+#wolframInput::placeholder {
+    color: var(--placeholder);
+    opacity: 1;
+}

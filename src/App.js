@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import BootstrapNavbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Home from "./components/Home/Home";
+import About from "./components/About/About";
+import Contact from "./components/Contact/Contact";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 import "./App.css";
 import "./themes.css";
 
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Router>
       <div className="body-content">
-        <BootstrapNavbar />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home setLatexCode={setLatexCode} />} />
           <Route path="/about" element={<About />} />

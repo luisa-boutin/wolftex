@@ -1,0 +1,18 @@
+.latex-renderer{
+    background-color: var(--primary-background-color);
+}
+
+#latexRender{
+    color: var(--text-color);
+    background-color: var(--secondary-background-color);
+}
+
+#wolframInput {
+    color: var(--text-color);
+    background-color: var(--secondary-background-color);
+}
+
+#latexOutput {
+    color: var(--text-color);
+    background-color: var(--secondary-background-color);
+}
