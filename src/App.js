@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import BootstrapNavbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import "./App.css";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
