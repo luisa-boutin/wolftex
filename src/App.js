@@ -6,13 +6,14 @@ import Contact from "./components/Contact";
 import BootstrapNavbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./App.css";
+import "./themes.css";
 
 const App = () => {
   const setLatexCode = useState("");
 
   return (
     <Router>
-      <div>
+      <div className="body-content">
         <BootstrapNavbar />
         <Routes>
           <Route path="/" element={<Home setLatexCode={setLatexCode} />} />

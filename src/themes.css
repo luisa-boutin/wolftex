@@ -1,0 +1,17 @@
+/* styles/themes.css */
+
+:root {
+    /* Light theme colors */
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #007bff;
+    /* Additional colors as needed */
+}
+
+[data-theme="dark"] {
+    /* Dark theme colors */
+    --background-color: #343a40;
+    --text-color: #ffffff;
+    --primary-color: #6c757d;
+    /* Additional colors as needed */
+}

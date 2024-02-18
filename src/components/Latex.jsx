@@ -8,6 +8,16 @@ const LatexRenderer = ({ latexCode }) => {
       <div className="card-deck mb-3 text-center">
         <div id="latexOutput" class="card mb-4 box-shadow">
           <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Input em Wolfram:</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">
+              <p className="lead">{latexCode}</p>
+            </h1>
+          </div>
+        </div>
+        <div id="latexOutput" class="card mb-4 box-shadow">
+          <div class="card-header">
             <h4 class="my-0 font-weight-normal">Output em LaTeX:</h4>
           </div>
           <div class="card-body">

@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const BootstrapNavbar = () => {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  const changeTheme = (newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
+
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
+
   return (
-    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light px-3">
       <a className="navbar-brand" href="/">
-        Navbar
+        WolfTex.js
       </a>
       <button
         className="navbar-toggler"
         type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation">
@@ -25,15 +36,45 @@ const BootstrapNavbar = () => {
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/about">
-              About
+              Sobre
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/contact">
-              Contact
+              Contato
             </a>
           </li>
         </ul>
+        <div className="ms-auto">
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="/"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <i class="bi bi-palette"></i>&nbsp; Temas
+              </a>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink">
+                <button
+                  className="dropdown-item"
+                  onClick={() => changeTheme("light")}>
+                  <i class="bi bi-sun"></i>&nbsp; Light
+                </button>
+                <button
+                  className="dropdown-item"
+                  onClick={() => changeTheme("dark")}>
+                  <i class="bi bi-moon-stars"></i>&nbsp; Dark
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   );

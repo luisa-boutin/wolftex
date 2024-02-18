@@ -15,10 +15,10 @@ const Home = () => {
 
   return (
     <div>
-      <div className="jumbotron">
-        <div className="container">
-          <h1 className="display-3">Wolftex.js</h1>
-          <p>Breve descritivo sobre a aplicação.</p>
+      <div className="container my-5">
+        <div className="p-5 text-center bg-body-tertiary rounded-3">
+          <h1 className="display-3">WolfTex.js</h1>
+          <p className="m-5">Breve descritivo sobre a aplicação.</p>
 
           <div className="input-group mb-3">
             <input
