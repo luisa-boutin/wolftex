@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import LatexRenderer from "../LatexRenderer/LatexRenderer";
+import { translateMathematicaToLatex } from "../Parser/parser";
+
 import "./Home.css";
 
 const Home = () => {
   const [inputValue, setInputValue] = useState("");
-  const [latexCode, setLatexCode] = useState("");
+  const [translatedLatex, setLatexCode] = useState("");
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
   const handleButtonClick = () => {
-    setLatexCode(inputValue);
+    const translatedLatex = translateMathematicaToLatex(inputValue);
+    setLatexCode(translatedLatex);
   };
 
   return (
@@ -48,7 +51,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <LatexRenderer latexCode={latexCode} />
+      <LatexRenderer mathematicaCode={inputValue} latexCode={translatedLatex} />
     </div>
   );
 };

@@ -3,7 +3,9 @@ import "katex/dist/katex.min.css";
 import Latex from "react-latex";
 import "./LatexRenderer.css";
 
-const LatexRenderer = ({ latexCode }) => {
+const LatexRenderer = ({ mathematicaCode, latexCode }) => {
+  const wrappedLatexCode = `$$${latexCode}$$`;
+
   return (
     <div className="container-fluid">
       <div className="card-deck mb-3 text-center">
@@ -13,7 +15,7 @@ const LatexRenderer = ({ latexCode }) => {
           </div>
           <div className="card-body">
             <h1 className="card-title pricing-card-title">
-              <p className="lead">{latexCode}</p>
+              <p className="lead">{mathematicaCode}</p>
             </h1>
           </div>
         </div>
@@ -34,7 +36,7 @@ const LatexRenderer = ({ latexCode }) => {
           <div className="card-body">
             <h1 className="card-title pricing-card-title">
               <p className="lead">
-                <Latex>{latexCode}</Latex>
+                <Latex>{wrappedLatexCode}</Latex>
               </p>
             </h1>
           </div>
