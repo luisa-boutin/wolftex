@@ -7,11 +7,11 @@
 }
 
 body {
-  background-color: var(--primary-background-color);
+  background-color: var(--secondary-background-color);
   color: var(--text-color);
   margin-bottom: 100px;
 }
 
 .body-content {
-  padding-top: 4rem;
+  padding-top: 2rem;
 }

@@ -16,7 +16,8 @@ const Navbar = () => {
   return (
     <nav className="navbar fixed-top navbar-expand-lg px-3">
       <a className="navbar-brand" href="/">
-        WolfTex.js
+        <span id="wolf">Wolf</span>
+        <span className="tex">Tex</span>.js
       </a>
       <button
         className="navbar-toggler"

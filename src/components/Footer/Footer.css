@@ -1,5 +1,5 @@
 .footer-style {
     background-color: var(--navbar-footer);
-    color: var(--text-color);
+    color: var(--nav-foot-text-color);
     font-size: "24px";
 }

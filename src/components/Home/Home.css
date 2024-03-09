@@ -1,17 +1,42 @@
 #greeting-card {
-    background-color: var(--tertiary-background-color);
+    background: var(--primary-background-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-color: var(--primary-background-color);
 }
 
 #wolframInput {
- background-color: var(--secondary-background-color);
+    background-color: var(--placeholder-background-color);
+    border-color: var(--input-border-color);
 }
 
 #button-translate {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     background-color: var(--primary-button);
+    margin-left: 5px;
     color: var(--text-color);
 }
 
 #wolframInput::placeholder {
-    color: var(--placeholder);
     opacity: 1;
+}
+
+.holder{
+    color: var(--placeholder);
+}
+
+.wolf {
+    font-family: monospace;
+    color: #942121;
+}
+
+.tex {
+    font-family: 'TexGyreDejaVuMath';
+}
+
+@font-face {
+    font-family: 'TeXGyreDejaVuMath';
+    src: url('../../fonts/texgyredejavu-math.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
 }

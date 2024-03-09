@@ -5,9 +5,9 @@ import "./LatexRenderer.css";
 
 const LatexRenderer = ({ latexCode }) => {
   return (
-    <div className="latex-renderer container-fluid">
+    <div className="container-fluid">
       <div className="card-deck mb-3 text-center">
-        <div id="wolframInput" className="card mb-4">
+        <div id="wolframDisplay" className="card mb-4 col">
           <div className="card-header">
             <h4 className="my-0 font-weight-normal">Input em Wolfram:</h4>
           </div>
@@ -17,7 +17,7 @@ const LatexRenderer = ({ latexCode }) => {
             </h1>
           </div>
         </div>
-        <div id="latexOutput" className="card mb-4">
+        <div id="latexOutput" className="card mb-4 col">
           <div className="card-header">
             <h4 className="my-0 font-weight-normal">Output em LaTeX:</h4>
           </div>
@@ -27,7 +27,7 @@ const LatexRenderer = ({ latexCode }) => {
             </h1>
           </div>
         </div>
-        <div id="latexRender" className="card mb-4">
+        <div id="latexRender" className="card mb-4 col">
           <div className="card-header">
             <h4 className="my-0 font-weight-normal">LaTeX Renderizado:</h4>
           </div>
