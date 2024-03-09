@@ -18,16 +18,30 @@
 }
 
 #wolframInput::placeholder {
+    color: var(--placeholder);
+    opacity: 1;
+}
+
+#wolframInput:focus {
+    color: var(--text-color);
     opacity: 1;
 }
 
 .holder{
-    color: var(--placeholder);
+    color: var(--text-color);
 }
 
 .wolf {
     font-family: monospace;
     color: #942121;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--placeholder-background-color) inset !important;
+    -webkit-text-fill-color: var(--text-color);
 }
 
 .tex {

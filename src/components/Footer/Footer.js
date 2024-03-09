@@ -3,18 +3,16 @@ import "./Footer.css";
 
 const Footer = () => {
   return (
-    <div className="container">
-      <footer className="footer-style d-flex flex-wrap justify-content-between align-items-center py-3 px-3 border-top fixed-bottom">
-        <div className="footer-style col-md-4 d-flex align-items-center">
-          <a
-            href="/"
-            className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-            <i className="footer-style bi bi bi-code-slash"></i>
-          </a>
-          <span className="footer-style mb-3 mb-md-0">&nbsp; Luisa Boutin</span>
-        </div>
-      </footer>
-    </div>
+    <footer className="footer-style d-flex flex-wrap py-3 px-3 fixed-bottom">
+      <div className="footer-style col-md-4 d-flex align-items-center">
+        <a
+          href="/"
+          className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+          <i className="footer-style bi bi bi-code-slash"></i>
+        </a>
+        <span className="footer-style mb-3 mb-md-0">&nbsp; Luisa Boutin</span>
+      </div>
+    </footer>
   );
 };
 
