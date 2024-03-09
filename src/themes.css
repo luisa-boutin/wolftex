@@ -125,16 +125,16 @@
 
 [data-theme="dark"] {
     /* Dark theme colors */
-    --primary-background-color: #27222c;
-    --secondary-background-color: #38353b;
-    --card-header-background-color: #7f61a5;
-    --on-card-header-text-color: #30004a;
-    --card-body-background-color: #27222c;
+    --primary-background-color: #343136;
+    --secondary-background-color: #27222c;
+    --card-header-background-color: #684694;
+    --on-card-header-text-color: #ffffff;
+    --card-body-background-color: #343136;
     --text-color: #ffffff;
     --primary-button: #0a0550;
     --input-border-color: #000000;
     --placeholder: #ffffff;
-    --placeholder-background-color: #2f243b;
+    --placeholder-background-color: #3c2f4b;
     --navbar-footer: #402e58;
     --nav-foot-text-color: #ffffff;
     --nav-wolf-color: #ff7a7a;
