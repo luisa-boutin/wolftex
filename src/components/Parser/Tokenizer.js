@@ -29,6 +29,7 @@ const TokenType = {
   Arcsin: "Arcsin",
   Arccos: "Arccos",
   Arctan: "Arctan",
+  Superscript: "Superscript",
 };
 
 export class Token {
@@ -48,105 +49,55 @@ export function tokenize(input) {
 
     // Skip whitespace
     if (/\s/.test(char)) {
-      tokens.push(new Token(char, TokenType.Whitespace));
       current++;
       continue;
     }
 
-    // Numbers
+    // Handle numbers
     if (/\d/.test(char)) {
       let value = "";
-      while (/\d/.test(char) && current < input.length) {
+      while (/\d/.test(char)) {
         value += char;
         current++;
-        if (current < input.length) {
-          char = input[current];
-        }
+        char = src[current] || "";
       }
       tokens.push(new Token(value, TokenType.Number));
       continue;
     }
 
-    // Identifiers and specific keywords
+    // Handle identifiers (variables and functions)
     if (/[a-zA-Z]/.test(char)) {
       let value = "";
-      while (/[a-zA-Z]/.test(char) && current < src.length) {
+      while (/[a-zA-Z]/.test(char)) {
         value += char;
         current++;
-        if (current < src.length) {
-          char = src[current];
-        }
+        char = src[current] || "";
       }
       switch (value) {
         case "Sin":
-          tokens.push(new Token(value, TokenType.Sin));
-          break;
         case "Cos":
-          tokens.push(new Token(value, TokenType.Cos));
-          break;
         case "Tan":
-          tokens.push(new Token(value, TokenType.Tan));
-          break;
         case "Log":
-          tokens.push(new Token(value, TokenType.Log));
-          break;
         case "Exp":
-          tokens.push(new Token(value, TokenType.Exp));
-          break;
         case "Integrate":
-          tokens.push(new Token(value, TokenType.Integrate));
+          tokens.push(new Token(value, TokenType[value]));
           break;
         default:
-          tokens.push(new Token(value, TokenType.Identifier));
+          tokens.push(new Token(value, TokenType.Letter));
       }
       continue;
     }
 
-    // Single character tokens
-    switch (char) {
-      case "+":
-        tokens.push(new Token(char, TokenType.Sum));
-        break;
-      case "-":
-        tokens.push(new Token(char, TokenType.Subtraction));
-        break;
-      case "/":
-        tokens.push(new Token(char, TokenType.Division));
-        break;
-      case "*":
-        tokens.push(new Token(char, TokenType.Multiplication));
-        break;
-      case "=":
-        tokens.push(new Token(char, TokenType.Equals));
-        break;
-      case "<":
-        tokens.push(new Token(char, TokenType.LesserThan));
-        break;
-      case ">":
-        tokens.push(new Token(char, TokenType.GreaterThan));
-        break;
-      case "(":
-        tokens.push(new Token(char, TokenType.OpenParenthesis));
-        break;
-      case ")":
-        tokens.push(new Token(char, TokenType.CloseParenthesis));
-        break;
-      case "[":
-        tokens.push(new Token(char, TokenType.OpenBracket));
-        break;
-      case "]":
-        tokens.push(new Token(char, TokenType.CloseBracket));
-        break;
-      case "{":
-        tokens.push(new Token(char, TokenType.OpenCurlyBracket));
-        break;
-      case "}":
-        tokens.push(new Token(char, TokenType.CloseCurlyBracket));
-        break;
-      default:
-        throw new Error(`Unexpected character: ${char}`);
+    // Handle single character tokens including the superscript '^'
+    if ("+-*/=<>()[{}]^".includes(char)) {
+      tokens.push(
+        new Token(char, TokenType[char === "^" ? "Superscript" : char])
+      );
+      current++;
+      continue;
     }
-    current++;
+
+    throw new Error(`Unexpected character: ${char}`);
   }
 
   return tokens;

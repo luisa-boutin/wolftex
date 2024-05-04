@@ -11,6 +11,15 @@ export function convertTokensToLatex(tokens) {
       case "Letter":
         output += token.value;
         break;
+      case "Superscript":
+        if (i + 1 < tokens.length) {
+          const base = output.slice(-1);
+          output = output.slice(0, -1); // Remove the base from the output
+          const exponent = tokens[i + 1].value;
+          output += `${base}^{${exponent}}`;
+          i++; // Move past the exponent token
+        }
+        break;
       case "Sin":
       case "Cos":
         // Check if there are enough tokens ahead to form a valid function call
