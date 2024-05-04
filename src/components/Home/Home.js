@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import LatexRenderer from "../LatexRenderer/LatexRenderer";
-import { translateMathematicaToLatex } from "../Parser/parser";
-
+import { tokenize } from "../Parser/Tokenizer";
+import { convertTokensToLatex } from "../Parser/Translator";
 import "./Home.css";
 
 const Home = () => {
-  const [inputValue, setInputValue] = useState("");
   const [translatedLatex, setLatexCode] = useState("");
+  const [input, setInput] = useState("");
+  const [tokens, setTokens] = useState([]);
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+    const newText = event.target.value;
+    setInput(newText);
+    const newTokens = tokenize(newText);
+    setTokens(newTokens);
+    const newLatexCode = convertTokensToLatex(newTokens);
+    setLatexCode(newLatexCode);
   };
 
   const handleButtonClick = () => {
-    const translatedLatex = translateMathematicaToLatex(inputValue);
+    const translatedLatex = convertTokensToLatex(tokens);
     setLatexCode(translatedLatex);
   };
 
@@ -35,7 +41,7 @@ const Home = () => {
                 placeholder="Wolfram code"
                 aria-label="Wolfram code"
                 aria-describedby="button-translate"
-                value={inputValue}
+                value={input}
                 onChange={handleInputChange}
               />
               <div className="input-group-append">
@@ -51,7 +57,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <LatexRenderer mathematicaCode={inputValue} latexCode={translatedLatex} />
+      <LatexRenderer mathematicaCode={input} latexCode={translatedLatex} />
     </div>
   );
 };

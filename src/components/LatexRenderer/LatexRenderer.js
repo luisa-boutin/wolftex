@@ -2,17 +2,9 @@ import React, { useState } from "react";
 import "katex/dist/katex.min.css";
 import Latex from "react-latex";
 import "./LatexRenderer.css";
-import { tokenize } from "../Parser/Tokenizer";
 
 const LatexRenderer = ({ mathematicaCode, latexCode }) => {
-  const [input, setInput] = useState("");
   const [tokens, setTokens] = useState([]);
-
-  const handleInputChange = (event) => {
-    setInput(event.target.value);
-    const tokens = tokenize(event.target.value);
-    setTokens(tokens);
-  };
 
   const wrappedLatexCode = `$$${latexCode}$$`;
 
@@ -24,13 +16,6 @@ const LatexRenderer = ({ mathematicaCode, latexCode }) => {
             <h4 className="my-0 font-weight-normal">Test Tokenizer</h4>
           </div>
           <div className="card-body">
-            <input
-              type="text"
-              value={input}
-              onChange={handleInputChange}
-              placeholder="Enter text to tokenize"
-              className="form-control"
-            />
             <h4>Tokens:</h4>
             <pre>{JSON.stringify(tokens, null, 2)}</pre>
           </div>
