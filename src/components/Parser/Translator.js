@@ -22,13 +22,15 @@ export function convertTokensToLatex(tokens) {
         i = integralResult.newIndex - 1; // Adjust the index properly
         break;
       case "D":
-        // Simple derivative \frac{d}{dx}{expression}
         output += `\\frac{d}{d${tokens[i + 1].value}}{${tokens[i + 2].value}}`;
         i += 2; // Skip the variable and expression parts
         break;
       case "Sin":
       case "Cos":
-        // Handle trigonometric functions with potential nested expressions
+      case "Tan":
+      case "Arcsin":
+      case "Arccos":
+      case "Arctan":
         let { formattedFunction, newIndex } = handleNestedFunctions(
           tokens,
           i,
@@ -75,7 +77,11 @@ function handleNestedFunctions(tokens, startIndex, funcType) {
   let args = "";
   let i = startIndex + 2; // Start right after the function name and '['
   while (i < tokens.length && tokens[i].value !== "]") {
-    if (["Cos", "Sin", "Tan"].includes(tokens[i].type)) {
+    if (
+      ["Cos", "Sin", "Tan", "Arccos", "Arcsin", "Arctan"].includes(
+        tokens[i].type
+      )
+    ) {
       let nestedResult = handleNestedFunctions(tokens, i, tokens[i].type);
       args += nestedResult.formattedFunction;
       i = nestedResult.newIndex;
