@@ -17,8 +17,9 @@ export function convertTokensToLatex(tokens) {
         output += token.value;
         break;
       case "Integrate":
-        output += handleIntegralFormatting(tokens, i);
-        i += findClosingCurly(tokens, i + 1); // Move to the end of the integral expression
+        const integralResult = handleIntegralFormatting(tokens, i);
+        output += integralResult.formattedIntegral; // Use the LaTeX string
+        i = integralResult.newIndex - 1; // Adjust the index properly
         break;
       case "D":
         // Simple derivative \frac{d}{dx}{expression}
@@ -91,29 +92,37 @@ function handleNestedFunctions(tokens, startIndex, funcType) {
 
 function handleIntegralFormatting(tokens, startIndex) {
   let output = "\\int";
-  startIndex += 2; // Skip 'Integrate' and '['
   let integrand = "";
-  while (tokens[startIndex].value !== "{") {
-    integrand += tokens[startIndex].value;
+  let variable, lower, upper;
+
+  startIndex += 2; // Skip 'Integrate' and '['
+
+  // Capture the integrand until you reach '{', which starts the bounds
+  while (startIndex < tokens.length && tokens[startIndex].value !== "{") {
+    if (tokens[startIndex].value !== ",") {
+      integrand += tokens[startIndex].value;
+    }
     startIndex++;
   }
-  startIndex++; // Skip '{'
-  let variable = tokens[startIndex++].value;
-  let lower = tokens[startIndex++].value;
-  let upper = tokens[startIndex++].value;
-  startIndex += 2; // Skip '}' and ']'
-  return `${output}_{${lower}}^{${upper}} ${integrand} \\, d${variable}`;
-}
 
-function findClosingCurly(tokens, startIndex) {
-  // Utility function to find the index of the closing curly bracket
-  let depth = 0;
-  for (let i = startIndex; i < tokens.length; i++) {
-    if (tokens[i].value === "{") depth++;
-    if (tokens[i].value === "}") {
-      depth--;
-      if (depth === 0) return i;
-    }
+  // Now handle the bounds
+  startIndex++; // Skip the '{'
+  variable = tokens[startIndex++].value; // The first token after '{' is the variable
+  startIndex++; // Skip the comma after the variable
+
+  lower = tokens[startIndex++].value; // The next token is the lower bound
+  startIndex++; // Skip the comma after the lower bound
+
+  upper = tokens[startIndex++].value;
+
+  // Correctly adjust for any tokens between the upper bound and the closing '}'
+  while (tokens[startIndex].value !== "}") {
+    startIndex++;
   }
-  return startIndex; // Return startIndex if no closing bracket found
+
+  startIndex += 2; // Skip '}' and ']'
+
+  output += `_{${lower}}^{${upper}} ${integrand} d${variable}`;
+
+  return { formattedIntegral: output, newIndex: startIndex };
 }
