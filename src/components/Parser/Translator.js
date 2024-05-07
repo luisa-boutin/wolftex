@@ -92,37 +92,56 @@ function handleNestedFunctions(tokens, startIndex, funcType) {
 
 function handleIntegralFormatting(tokens, startIndex) {
   let output = "\\int";
-  let integrand = "";
+  let integrandTokens = [];
   let variable, lower, upper;
 
   startIndex += 2; // Skip 'Integrate' and '['
 
-  // Capture the integrand until you reach '{', which starts the bounds
+  // Extract integrand tokens until the bounds start '{'
   while (startIndex < tokens.length && tokens[startIndex].value !== "{") {
-    if (tokens[startIndex].value !== ",") {
-      integrand += tokens[startIndex].value;
-    }
+    integrandTokens.push(tokens[startIndex]);
     startIndex++;
   }
+
+  // Process the integrand tokens to handle any nested functions
+  let integrand = convertFunctionTokensToIntegrand(integrandTokens);
 
   // Now handle the bounds
   startIndex++; // Skip the '{'
   variable = tokens[startIndex++].value; // The first token after '{' is the variable
-  startIndex++; // Skip the comma after the variable
+  startIndex++; // Skip the comma
 
   lower = tokens[startIndex++].value; // The next token is the lower bound
-  startIndex++; // Skip the comma after the lower bound
+  startIndex++; // Skip the comma
 
-  upper = tokens[startIndex++].value;
-
-  // Correctly adjust for any tokens between the upper bound and the closing '}'
-  while (tokens[startIndex].value !== "}") {
-    startIndex++;
-  }
+  upper = tokens[startIndex++].value; // Then the upper bound
 
   startIndex += 2; // Skip '}' and ']'
 
-  output += `_{${lower}}^{${upper}} ${integrand} d${variable}`;
+  output += `_{${lower}}^{${upper}} ${integrand} \\, d${variable}`;
+  output = output.replace(/,\s*\\,/g, " ");
 
   return { formattedIntegral: output, newIndex: startIndex };
+}
+
+function convertFunctionTokensToIntegrand(tokens) {
+  let output = "";
+  let i = 0;
+  while (i < tokens.length) {
+    let token = tokens[i];
+    if (token.type === "Cos" || token.type === "Sin" || token.type === "Tan") {
+      // Assume next token is '[' and find the matching ']'
+      let args = "";
+      i += 2; // Skip the function name and '['
+      while (tokens[i] && tokens[i].value !== "]") {
+        args += tokens[i].value;
+        i++;
+      }
+      output += `\\${token.type.toLowerCase()}{${args}}`;
+    } else {
+      output += token.value;
+    }
+    i++;
+  }
+  return output;
 }
