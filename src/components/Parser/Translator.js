@@ -14,31 +14,11 @@ export function convertTokensToLatex(tokens) {
         output += token.value;
         break;
       case "Superscript":
-        if (i + 1 < tokens.length) {
-          const base = output.slice(-1);
-          output = output.slice(0, -1); // Remove the base from the output
-          const exponent = tokens[i + 1].value;
-          output += `${base}^{${exponent}}`;
-          i++; // Move past the exponent token
-        }
+        output += token.value;
         break;
       case "Integrate":
-        i += 2; // skip 'Integrate' and the opening bracket '['
-        let integrand = "";
-        while (i < tokens.length && tokens[i].value !== "{") {
-          if (tokens[i].type !== "Comma" && tokens[i].type !== "Whitespace") {
-            integrand += tokens[i].value;
-          }
-          i++;
-        }
-        i++; // skip the opening curly bracket '{'
-        let variable = tokens[i++].value; // first item is the variable
-        i++; // skip the comma
-        let lower = tokens[i++].value; // second item is the lower bound
-        i++; // skip the comma
-        let upper = tokens[i++].value; // third item is the upper bound
-        i += 2; // skip '}' and ']'
-        output += `\\int_{${lower}}^{${upper}} ${integrand} d${variable}`;
+        output += handleIntegralFormatting(tokens, i);
+        i += findClosingCurly(tokens, i + 1); // Move to the end of the integral expression
         break;
       case "D":
         // Simple derivative \frac{d}{dx}{expression}
@@ -47,16 +27,14 @@ export function convertTokensToLatex(tokens) {
         break;
       case "Sin":
       case "Cos":
-        console.log(token.type);
-        if (i + 1 < tokens.length && tokens[i + 1].value === "[") {
-          let args = "";
-          i += 2; // Move past the function name and '['
-          while (i < tokens.length && tokens[i].value !== "]") {
-            args += tokens[i].value;
-            i++;
-          }
-          output += `\\${token.type.toLowerCase()}{${args}}`;
-        }
+        // Handle trigonometric functions with potential nested expressions
+        let { formattedFunction, newIndex } = handleNestedFunctions(
+          tokens,
+          i,
+          token.type
+        );
+        output += formattedFunction;
+        i = newIndex - 1; // Adjust 'i' since handleNestedFunctions already advances it
         break;
       case "Sum":
         output += "+";
@@ -90,4 +68,52 @@ export function convertTokensToLatex(tokens) {
     i++;
   }
   return output;
+}
+
+function handleNestedFunctions(tokens, startIndex, funcType) {
+  let args = "";
+  let i = startIndex + 2; // Start right after the function name and '['
+  while (i < tokens.length && tokens[i].value !== "]") {
+    if (["Cos", "Sin", "Tan"].includes(tokens[i].type)) {
+      let nestedResult = handleNestedFunctions(tokens, i, tokens[i].type);
+      args += nestedResult.formattedFunction;
+      i = nestedResult.newIndex;
+    } else {
+      args += tokens[i].value;
+      i++;
+    }
+  }
+  return {
+    formattedFunction: `\\${funcType.toLowerCase()}{${args}}`,
+    newIndex: i + 1, // Move past the closing ']'
+  };
+}
+
+function handleIntegralFormatting(tokens, startIndex) {
+  let output = "\\int";
+  startIndex += 2; // Skip 'Integrate' and '['
+  let integrand = "";
+  while (tokens[startIndex].value !== "{") {
+    integrand += tokens[startIndex].value;
+    startIndex++;
+  }
+  startIndex++; // Skip '{'
+  let variable = tokens[startIndex++].value;
+  let lower = tokens[startIndex++].value;
+  let upper = tokens[startIndex++].value;
+  startIndex += 2; // Skip '}' and ']'
+  return `${output}_{${lower}}^{${upper}} ${integrand} \\, d${variable}`;
+}
+
+function findClosingCurly(tokens, startIndex) {
+  // Utility function to find the index of the closing curly bracket
+  let depth = 0;
+  for (let i = startIndex; i < tokens.length; i++) {
+    if (tokens[i].value === "{") depth++;
+    if (tokens[i].value === "}") {
+      depth--;
+      if (depth === 0) return i;
+    }
+  }
+  return startIndex; // Return startIndex if no closing bracket found
 }
