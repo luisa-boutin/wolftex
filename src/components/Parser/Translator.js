@@ -108,14 +108,13 @@ function handleIntegralFormatting(tokens, startIndex) {
 
   // Now handle the bounds
   startIndex++; // Skip the '{'
-  variable = tokens[startIndex++].value; // The first token after '{' is the variable
+  variable = tokens[startIndex++].value;
   startIndex++; // Skip the comma
 
-  lower = tokens[startIndex++].value; // The next token is the lower bound
+  lower = tokens[startIndex++].value;
   startIndex++; // Skip the comma
 
-  upper = tokens[startIndex++].value; // Then the upper bound
-
+  upper = tokens[startIndex++].value;
   startIndex += 2; // Skip '}' and ']'
 
   output += `_{${lower}}^{${upper}} ${integrand} \\, d${variable}`;
@@ -130,14 +129,10 @@ function convertFunctionTokensToIntegrand(tokens) {
   while (i < tokens.length) {
     let token = tokens[i];
     if (token.type === "Cos" || token.type === "Sin" || token.type === "Tan") {
-      // Assume next token is '[' and find the matching ']'
-      let args = "";
-      i += 2; // Skip the function name and '['
-      while (tokens[i] && tokens[i].value !== "]") {
-        args += tokens[i].value;
-        i++;
-      }
-      output += `\\${token.type.toLowerCase()}{${args}}`;
+      // Correctly process nested functions recursively
+      let nestedResult = handleNestedFunctions(tokens, i, token.type);
+      output += nestedResult.formattedFunction;
+      i = nestedResult.newIndex - 1; // Correct index adjustment
     } else {
       output += token.value;
     }
