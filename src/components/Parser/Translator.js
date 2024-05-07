@@ -1,9 +1,11 @@
 export function convertTokensToLatex(tokens) {
   let output = "";
-  for (let i = 0; i < tokens.length; i++) {
+  let i = 0;
+
+  while (i < tokens.length) {
     const token = tokens[i];
     if (!token) {
-      continue;
+      break;
     }
 
     switch (token.type) {
@@ -20,19 +22,40 @@ export function convertTokensToLatex(tokens) {
           i++; // Move past the exponent token
         }
         break;
+      case "Integrate":
+        i += 2; // skip 'Integrate' and the opening bracket '['
+        let integrand = "";
+        while (i < tokens.length && tokens[i].value !== "{") {
+          if (tokens[i].type !== "Comma" && tokens[i].type !== "Whitespace") {
+            integrand += tokens[i].value;
+          }
+          i++;
+        }
+        i++; // skip the opening curly bracket '{'
+        let variable = tokens[i++].value; // first item is the variable
+        i++; // skip the comma
+        let lower = tokens[i++].value; // second item is the lower bound
+        i++; // skip the comma
+        let upper = tokens[i++].value; // third item is the upper bound
+        i += 2; // skip '}' and ']'
+        output += `\\int_{${lower}}^{${upper}} ${integrand} d${variable}`;
+        break;
+      case "D":
+        // Simple derivative \frac{d}{dx}{expression}
+        output += `\\frac{d}{d${tokens[i + 1].value}}{${tokens[i + 2].value}}`;
+        i += 2; // Skip the variable and expression parts
+        break;
       case "Sin":
       case "Cos":
-        // Check if there are enough tokens ahead to form a valid function call
-        if (
-          i + 3 < tokens.length &&
-          tokens[i + 1].type === "OpenBracket" &&
-          tokens[i + 3].type === "CloseBracket"
-        ) {
-          // Skip the next three tokens as they are part of this function
-          output += `\\${token.type.toLowerCase()}{${tokens[i + 2].value}}`;
-          i += 3;
-        } else {
-          output += `\\${token.type.toLowerCase()}{}`;
+        console.log(token.type);
+        if (i + 1 < tokens.length && tokens[i + 1].value === "[") {
+          let args = "";
+          i += 2; // Move past the function name and '['
+          while (i < tokens.length && tokens[i].value !== "]") {
+            args += tokens[i].value;
+            i++;
+          }
+          output += `\\${token.type.toLowerCase()}{${args}}`;
         }
         break;
       case "Sum":
@@ -64,6 +87,7 @@ export function convertTokensToLatex(tokens) {
       default:
         output += "";
     }
+    i++;
   }
   return output;
 }

@@ -21,7 +21,8 @@ const TokenType = {
   PartialDerivative: "PartialDerivative",
   TotalDerivative: "TotalDerivative",
   Limit: "Limit",
-  Integral: "Integral",
+  Integrate: "Integrate",
+  Derivative: "Derivative",
   Factorial: "Factorial",
   Sin: "Sin",
   Cos: "Cos",
@@ -30,6 +31,7 @@ const TokenType = {
   Arccos: "Arccos",
   Arctan: "Arctan",
   Superscript: "Superscript",
+  Comma: "Comma",
 };
 
 export class Token {
@@ -73,13 +75,18 @@ export function tokenize(input) {
         current++;
         char = src[current] || "";
       }
+
       switch (value) {
         case "Sin":
         case "Cos":
         case "Tan":
         case "Log":
         case "Exp":
+        case "Arcsin":
+        case "Arccos":
+        case "Arctan":
         case "Integrate":
+        case "D":
           tokens.push(new Token(value, TokenType[value]));
           break;
         default:
@@ -88,11 +95,16 @@ export function tokenize(input) {
       continue;
     }
 
-    // Handle single character tokens including the superscript '^'
     if ("+-*/=<>()[{}]^".includes(char)) {
       tokens.push(
         new Token(char, TokenType[char === "^" ? "Superscript" : char])
       );
+      current++;
+      continue;
+    }
+
+    if (char === ",") {
+      tokens.push(new Token(char, TokenType.Comma));
       current++;
       continue;
     }
