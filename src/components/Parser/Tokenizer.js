@@ -49,13 +49,11 @@ export function tokenize(input) {
   while (current < src.length) {
     let char = src[current];
 
-    // Skip whitespace
     if (/\s/.test(char)) {
       current++;
       continue;
     }
 
-    // Handle numbers
     if (/\d/.test(char)) {
       let value = "";
       while (/\d/.test(char)) {
@@ -67,7 +65,6 @@ export function tokenize(input) {
       continue;
     }
 
-    // Handle identifiers (variables and functions)
     if (/[a-zA-Z]/.test(char)) {
       let value = "";
       while (/[a-zA-Z]/.test(char)) {
@@ -75,36 +72,12 @@ export function tokenize(input) {
         current++;
         char = src[current] || "";
       }
-
-      switch (value) {
-        case "Sin":
-        case "Cos":
-        case "Tan":
-        case "Log":
-        case "Exp":
-        case "Arcsin":
-        case "Arccos":
-        case "Arctan":
-        case "Integrate":
-        case "D":
-          tokens.push(new Token(value, TokenType[value]));
-          break;
-        default:
-          tokens.push(new Token(value, TokenType.Letter));
-      }
+      tokens.push(new Token(value, TokenType[value] || TokenType.Letter));
       continue;
     }
 
-    if ("+-*/=<>()[{}]^".includes(char)) {
-      tokens.push(
-        new Token(char, TokenType[char === "^" ? "Superscript" : char])
-      );
-      current++;
-      continue;
-    }
-
-    if (char === ",") {
-      tokens.push(new Token(char, TokenType.Comma));
+    if ("+-*/=<>()[{}]^,".includes(char)) {
+      tokens.push(new Token(char, TokenType[char] || "Unknown"));
       current++;
       continue;
     }

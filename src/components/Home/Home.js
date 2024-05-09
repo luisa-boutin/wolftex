@@ -14,8 +14,6 @@ const Home = () => {
     setInput(newText);
     const newTokens = tokenize(newText);
     setTokens(newTokens);
-    const newLatexCode = convertTokensToLatex(newTokens);
-    setLatexCode(newLatexCode);
   };
 
   const handleButtonClick = () => {
