@@ -18,12 +18,14 @@ export function convertTokensToLatex(tokens) {
         break;
       case "Integrate":
         const integralResult = handleIntegralFormatting(tokens, i);
-        output += integralResult.formattedIntegral; // Use the LaTeX string
-        i = integralResult.newIndex - 1; // Adjust the index properly
+        output += integralResult.formattedIntegral;
+        i = integralResult.newIndex - 1;
         break;
-      case "D":
-        output += `\\frac{d}{d${tokens[i + 1].value}}{${tokens[i + 2].value}}`;
-        i += 2; // Skip the variable and expression parts
+      case "TotalDerivative":
+      case "PartialDerivative":
+        const derivativeResult = handleDerivativeFormatting(tokens, i);
+        output += derivativeResult.formattedDerivative;
+        i = derivativeResult.newIndex - 1;
         break;
       case "Sin":
       case "Cos":
@@ -38,6 +40,11 @@ export function convertTokensToLatex(tokens) {
         );
         output += formattedFunction;
         i = newIndex - 1; // Adjust 'i' since handleNestedFunctions already advances it
+        break;
+      case "Limit":
+        const limitResult = handleLimitFormatting(tokens, i);
+        output += limitResult.formattedLimit;
+        i = limitResult.newIndex - 1;
         break;
       case "Sum":
         output += "+";
@@ -112,7 +119,7 @@ function handleIntegralFormatting(tokens, startIndex) {
   // Process the integrand tokens to handle any nested functions
   let integrand = convertFunctionTokensToIntegrand(integrandTokens);
 
-  // Now handle the bounds
+  // Handle the bounds
   startIndex++; // Skip the '{'
   variable = tokens[startIndex++].value;
   startIndex++; // Skip the comma
@@ -134,15 +141,97 @@ function convertFunctionTokensToIntegrand(tokens) {
   let i = 0;
   while (i < tokens.length) {
     let token = tokens[i];
+    // TODO: If the subtype of the token is a function, refactor this if statement
+    // if ( token.subtype === "Function")
     if (token.type === "Cos" || token.type === "Sin" || token.type === "Tan") {
-      // Correctly process nested functions recursively
       let nestedResult = handleNestedFunctions(tokens, i, token.type);
       output += nestedResult.formattedFunction;
-      i = nestedResult.newIndex - 1; // Correct index adjustment
+      i = nestedResult.newIndex - 1;
     } else {
       output += token.value;
     }
     i++;
   }
   return output;
+}
+
+function handleDerivativeFormatting(tokens, startIndex) {
+  let output = "";
+  let derivativeType = tokens[startIndex].type;
+  let variable, expression;
+
+  startIndex += 2; // Skip 'D' or 'Dt' and '['
+
+  // Extract expression tokens until the comma
+  let expressionTokens = [];
+  while (startIndex < tokens.length && tokens[startIndex].value !== ",") {
+    expressionTokens.push(tokens[startIndex]);
+    startIndex++;
+  }
+
+  // Skip the comma
+  startIndex++;
+
+  // The next token should be the variable of derivation
+  if (startIndex < tokens.length) {
+    variable = tokens[startIndex].value;
+    startIndex++; // Move past the variable
+  }
+
+  expression = convertFunctionTokensToIntegrand(expressionTokens);
+
+  let derivativeSymbol =
+    derivativeType === "TotalDerivative" ? "d" : "\\partial";
+
+  output = `\\frac{${derivativeSymbol} ${expression}}{${derivativeSymbol} ${variable}}`;
+
+  startIndex++;
+
+  return { formattedDerivative: output, newIndex: startIndex };
+}
+
+function handleLimitFormatting(tokens, startIndex) {
+  let output = "\\lim\\limits";
+  let variable, approach, expression;
+
+  startIndex += 2; // Skip 'Limit' and '['
+
+  // Extract expression tokens until the first comma
+  let expressionTokens = [];
+  while (startIndex < tokens.length && tokens[startIndex].value !== ",") {
+    expressionTokens.push(tokens[startIndex]);
+    startIndex++;
+  }
+
+  // Skip the comma to get to the variable
+  startIndex++;
+
+  if (startIndex < tokens.length) {
+    variable = tokens[startIndex].value;
+    startIndex++; // Move past the variable
+  }
+
+  // Skip the next comma to get to the approach
+  startIndex++;
+
+  if (startIndex < tokens.length) {
+    approach = tokens[startIndex].value;
+    if (approach.toLowerCase() === "infinity") {
+      approach = "\\infty";
+    }
+    startIndex++;
+  }
+
+  // Move past the closing ']'
+  startIndex++;
+
+  if (expressionTokens.length > 0) {
+    expression = convertFunctionTokensToIntegrand(expressionTokens);
+  } else {
+    expression = "";
+  }
+
+  output += `_{${variable} \\to ${approach}} ${expression}`;
+
+  return { formattedLimit: output, newIndex: startIndex };
 }
