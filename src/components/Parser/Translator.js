@@ -29,6 +29,8 @@ export function convertTokensToLatex(tokens) {
         break;
       case "Sin":
       case "Cos":
+      case "Sinh":
+      case "Cosh":
       case "Tan":
       case "Arcsin":
       case "Arccos":
