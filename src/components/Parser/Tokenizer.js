@@ -44,6 +44,7 @@ export function tokenize(input) {
   let current = 0;
   let tokens = [];
   const src = input.split("");
+  let unexpected = [];
 
   while (current < src.length) {
     let char = src[current];
@@ -81,7 +82,13 @@ export function tokenize(input) {
       continue;
     }
 
-    throw new Error(`Unexpected character: ${char}`);
+    // Log unexpected characters instead of throwing an error
+    unexpected.push(char);
+    current++;
+  }
+
+  if (unexpected.length > 0) {
+    console.warn("Unexpected characters ignored:", unexpected.join(""));
   }
 
   return tokens;
