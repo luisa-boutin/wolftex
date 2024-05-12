@@ -28,13 +28,13 @@ export function convertTokensToLatex(tokens) {
         i = derivativeResult.newIndex - 1;
         break;
       case "Sum":
-        const sumResult = handleSumFormatting(tokens, i);
-        output += sumResult.formattedSum;
+        const sumResult = handleGeneralizedFormatting(tokens, i, "\\sum");
+        output += sumResult.formattedOutput;
         i = sumResult.newIndex - 1;
         break;
       case "Product":
-        const productResult = handleProductFormatting(tokens, i);
-        output += productResult.formattedProduct;
+        const productResult = handleGeneralizedFormatting(tokens, i, "\\prod");
+        output += productResult.formattedOutput;
         i = productResult.newIndex - 1;
         break;
       case "Sin":
@@ -129,7 +129,7 @@ function handleIntegralFormatting(tokens, startIndex) {
   }
 
   // Process the integrand tokens to handle any nested functions
-  let integrand = convertFunctionTokensToIntegrand(integrandTokens);
+  let integrand = convertFunctionTokens(integrandTokens);
 
   // Handle the bounds
   startIndex++; // Skip the '{'
@@ -148,7 +148,7 @@ function handleIntegralFormatting(tokens, startIndex) {
   return { formattedIntegral: output, newIndex: startIndex };
 }
 
-function convertFunctionTokensToIntegrand(tokens) {
+function convertFunctionTokens(tokens) {
   let output = "";
   let i = 0;
   while (i < tokens.length) {
@@ -187,10 +187,10 @@ function handleDerivativeFormatting(tokens, startIndex) {
   // The next token should be the variable of derivation
   if (startIndex < tokens.length) {
     variable = tokens[startIndex].value;
-    startIndex++; // Move past the variable
+    startIndex++;
   }
 
-  expression = convertFunctionTokensToIntegrand(expressionTokens);
+  expression = convertFunctionTokens(expressionTokens);
 
   let derivativeSymbol =
     derivativeType === "TotalDerivative" ? "d" : "\\partial";
@@ -238,7 +238,7 @@ function handleLimitFormatting(tokens, startIndex) {
   startIndex++;
 
   if (expressionTokens.length > 0) {
-    expression = convertFunctionTokensToIntegrand(expressionTokens);
+    expression = convertFunctionTokens(expressionTokens);
   } else {
     expression = "";
   }
@@ -248,11 +248,11 @@ function handleLimitFormatting(tokens, startIndex) {
   return { formattedLimit: output, newIndex: startIndex };
 }
 
-function handleSumFormatting(tokens, startIndex) {
-  let output = "\\sum";
+function handleGeneralizedFormatting(tokens, startIndex, command, extra = "") {
+  let output = command;
   let variable, lower, upper, expression;
 
-  startIndex += 2; // Skip 'Sum' and '['
+  startIndex += 2; // Skip the operation keyword and '['
 
   // Extract expression tokens until the first comma
   let expressionTokens = [];
@@ -261,103 +261,24 @@ function handleSumFormatting(tokens, startIndex) {
     startIndex++;
   }
 
-  // Skip the comma to get to the start of the bounds, which should be '{'
-  startIndex++;
+  startIndex++; // Skip the comma to get to the start of the bounds, should be '{'
 
   if (tokens[startIndex].value === "{") {
-    startIndex++;
+    startIndex++; // Move past '{'
 
-    if (startIndex < tokens.length) {
-      variable = tokens[startIndex].value;
-      startIndex++;
-    }
+    variable = tokens[startIndex].value;
+    startIndex += 2; // Skip variable and comma
 
-    // Skip comma
-    startIndex++;
+    lower = tokens[startIndex].value;
+    startIndex += 2; // Skip lower bound and comma
 
-    // Extract lower bound
-    if (startIndex < tokens.length) {
-      lower = tokens[startIndex].value;
-      startIndex++;
-    }
-
-    // Skip comma
-    startIndex++;
-
-    // Extract upper bound
-    if (startIndex < tokens.length) {
-      upper = tokens[startIndex].value;
-      startIndex++;
-    }
-
-    // Move past the closing '}'
-    startIndex++;
+    upper = tokens[startIndex].value;
+    startIndex += 2; // Skip upper bound and '}'
   }
 
-  // Move past the closing ']'
-  startIndex++;
+  // Convert expression tokens to LaTeX format
+  expression = convertFunctionTokens(expressionTokens);
+  output += `_{${variable}=${lower}}^{${upper}} {${expression}}${extra}`;
 
-  expression = convertFunctionTokensToIntegrand(expressionTokens);
-
-  output += `_{${variable}=${lower}}^{${upper}} {${expression}}`;
-
-  return { formattedSum: output, newIndex: startIndex };
-}
-
-function handleProductFormatting(tokens, startIndex) {
-  let output = "\\prod";
-  let variable, lower, upper, expression;
-
-  startIndex += 2; // Skip 'Product' and '['
-
-  // Extract expression tokens until the first comma
-  let expressionTokens = [];
-  while (startIndex < tokens.length && tokens[startIndex].value !== ",") {
-    expressionTokens.push(tokens[startIndex]);
-    startIndex++;
-  }
-
-  // Skip the comma to get to the start of the bounds, which should be '{'
-  startIndex++;
-
-  // Confirm the next token is '{' to start bounds
-  if (tokens[startIndex].value === "{") {
-    startIndex++;
-
-    // Extract variable
-    if (startIndex < tokens.length) {
-      variable = tokens[startIndex].value;
-      startIndex++;
-    }
-
-    // Skip comma
-    startIndex++;
-
-    // Extract lower bound
-    if (startIndex < tokens.length) {
-      lower = tokens[startIndex].value;
-      startIndex++;
-    }
-
-    // Skip comma
-    startIndex++;
-
-    // Extract upper bound
-    if (startIndex < tokens.length) {
-      upper = tokens[startIndex].value;
-      startIndex++;
-    }
-
-    // Move past the closing '}'
-    startIndex++;
-  }
-
-  // Move past the closing ']'
-  startIndex++;
-
-  expression = convertFunctionTokensToIntegrand(expressionTokens);
-
-  output += `_{${variable}=${lower}}^{${upper}} {${expression}}`;
-
-  return { formattedProduct: output, newIndex: startIndex };
+  return { formattedOutput: output, newIndex: startIndex };
 }
