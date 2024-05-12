@@ -27,6 +27,16 @@ export function convertTokensToLatex(tokens) {
         output += derivativeResult.formattedDerivative;
         i = derivativeResult.newIndex - 1;
         break;
+      case "Sum":
+        const sumResult = handleSumFormatting(tokens, i);
+        output += sumResult.formattedSum;
+        i = sumResult.newIndex - 1;
+        break;
+      case "Product":
+        const productResult = handleProductFormatting(tokens, i);
+        output += productResult.formattedProduct;
+        i = productResult.newIndex - 1;
+        break;
       case "Sin":
       case "Cos":
       case "Sinh":
@@ -48,7 +58,7 @@ export function convertTokensToLatex(tokens) {
         output += limitResult.formattedLimit;
         i = limitResult.newIndex - 1;
         break;
-      case "Sum":
+      case "BasicSum":
         output += "+";
         break;
       case "Subtraction":
@@ -236,4 +246,118 @@ function handleLimitFormatting(tokens, startIndex) {
   output += `_{${variable} \\to ${approach}} ${expression}`;
 
   return { formattedLimit: output, newIndex: startIndex };
+}
+
+function handleSumFormatting(tokens, startIndex) {
+  let output = "\\sum";
+  let variable, lower, upper, expression;
+
+  startIndex += 2; // Skip 'Sum' and '['
+
+  // Extract expression tokens until the first comma
+  let expressionTokens = [];
+  while (startIndex < tokens.length && tokens[startIndex].value !== ",") {
+    expressionTokens.push(tokens[startIndex]);
+    startIndex++;
+  }
+
+  // Skip the comma to get to the start of the bounds, which should be '{'
+  startIndex++;
+
+  if (tokens[startIndex].value === "{") {
+    startIndex++;
+
+    if (startIndex < tokens.length) {
+      variable = tokens[startIndex].value;
+      startIndex++;
+    }
+
+    // Skip comma
+    startIndex++;
+
+    // Extract lower bound
+    if (startIndex < tokens.length) {
+      lower = tokens[startIndex].value;
+      startIndex++;
+    }
+
+    // Skip comma
+    startIndex++;
+
+    // Extract upper bound
+    if (startIndex < tokens.length) {
+      upper = tokens[startIndex].value;
+      startIndex++;
+    }
+
+    // Move past the closing '}'
+    startIndex++;
+  }
+
+  // Move past the closing ']'
+  startIndex++;
+
+  expression = convertFunctionTokensToIntegrand(expressionTokens);
+
+  output += `_{${variable}=${lower}}^{${upper}} {${expression}}`;
+
+  return { formattedSum: output, newIndex: startIndex };
+}
+
+function handleProductFormatting(tokens, startIndex) {
+  let output = "\\prod";
+  let variable, lower, upper, expression;
+
+  startIndex += 2; // Skip 'Product' and '['
+
+  // Extract expression tokens until the first comma
+  let expressionTokens = [];
+  while (startIndex < tokens.length && tokens[startIndex].value !== ",") {
+    expressionTokens.push(tokens[startIndex]);
+    startIndex++;
+  }
+
+  // Skip the comma to get to the start of the bounds, which should be '{'
+  startIndex++;
+
+  // Confirm the next token is '{' to start bounds
+  if (tokens[startIndex].value === "{") {
+    startIndex++;
+
+    // Extract variable
+    if (startIndex < tokens.length) {
+      variable = tokens[startIndex].value;
+      startIndex++;
+    }
+
+    // Skip comma
+    startIndex++;
+
+    // Extract lower bound
+    if (startIndex < tokens.length) {
+      lower = tokens[startIndex].value;
+      startIndex++;
+    }
+
+    // Skip comma
+    startIndex++;
+
+    // Extract upper bound
+    if (startIndex < tokens.length) {
+      upper = tokens[startIndex].value;
+      startIndex++;
+    }
+
+    // Move past the closing '}'
+    startIndex++;
+  }
+
+  // Move past the closing ']'
+  startIndex++;
+
+  expression = convertFunctionTokensToIntegrand(expressionTokens);
+
+  output += `_{${variable}=${lower}}^{${upper}} {${expression}}`;
+
+  return { formattedProduct: output, newIndex: startIndex };
 }
