@@ -1,28 +1,30 @@
-#greeting-card {
+.intro-card {
     background: var(--primary-background-color);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-color: var(--primary-background-color);
 }
 
-#wolframInput {
+.wolfram-input {
     background-color: var(--placeholder-background-color);
     border-color: var(--input-border-color);
+    margin-right: 2px;
 }
 
-#button-translate {
+.button-translate {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     background-color: var(--primary-button);
     margin-left: 5px;
     color: var(--text-color);
 }
 
-#wolframInput::placeholder {
+.wolfram-input::placeholder {
     color: var(--placeholder);
     opacity: 1;
 }
 
-#wolframInput:focus {
+.wolfram-input:focus {
+    background-color: var(--input-bg-focus);
     color: var(--text-color);
     opacity: 1;
 }
@@ -33,7 +35,7 @@
 
 .wolf {
     font-family: monospace;
-    color: #a32c2c;
+    color: #bd2929;
 }
 
 input:-webkit-autofill,

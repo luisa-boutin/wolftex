@@ -8,6 +8,7 @@
     --text-color: #000000;
     --primary-button: #a3aaff;
     --input-border-color: #ffffff;
+    --input-bg-focus: rgb(234, 213, 247);
     --placeholder: #888787;
     --placeholder-background-color: #f8edff;
     --navbar-footer: #402e58;
@@ -15,7 +16,7 @@
     --nav-wolf-color: #ff7a7a;
     --dropdown-bg-hover: #bda0ff;
     --dropdown-text-hover: #412761;
-    --dropdown-active-text-color: rgb(228, 141, 255);
+    --dropdown-active-text-color: #e48dff;
     /* display - large */
     --md-sys-typescale-display-large-font-family-name: Roboto;
     --md-sys-typescale-display-large-font-family-style: Regular;
@@ -125,14 +126,15 @@
 
 [data-theme="dark"] {
     /* Dark theme colors */
-    --primary-background-color: #343136;
+    --primary-background-color: #2e2b30;
     --secondary-background-color: #27222c;
     --card-header-background-color: #684694;
     --on-card-header-text-color: #ffffff;
     --card-body-background-color: #343136;
     --text-color: #ffffff;
-    --primary-button: #0a0550;
+    --primary-button: #121f6d;
     --input-border-color: #000000;
+    --input-bg-focus: #453a52;
     --placeholder: #b4b4b4;
     --placeholder-background-color: #3c2f4b;
     --navbar-footer: #402e58;
@@ -140,7 +142,7 @@
     --nav-wolf-color: #ff7a7a;
     --dropdown-bg-hover: #bda0ff;
     --dropdown-text-hover: #412761;
-    --dropdown-active-text-color: rgb(228, 141, 255);
+    --dropdown-active-text-color: #e48dff;
     /* display - large */
     --md-sys-typescale-display-large-font-family-name: Roboto;
     --md-sys-typescale-display-large-font-family-style: Regular;

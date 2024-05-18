@@ -27,40 +27,45 @@ const Home = () => {
   return (
     <div>
       <div className="my-5">
-        <div id="greeting-card" className="text-center">
+        <div id="greeting-card" className="text-center intro-card">
           <div className="container py-5">
-            <h1 className="display-3">
-              <span className="wolf">Wolf</span>
-              <span className="tex">TeX</span>.js
-            </h1>
-            <p className="m-5">Breve descritivo sobre a aplicação.</p>
+            <header>
+              <h1 className="display-3">
+                <span className="wolf">Wolf</span>
+                <span className="tex">TeX</span>.js
+              </h1>
+            </header>
+            <main>
+              <p className="m-5">
+                Insira sua expressão em Wolfram Mathematica no campo abaixo para
+                obter a tradução para LaTeX.
+              </p>
+            </main>
             <div className="input-group">
               <input
                 type="text"
-                id="wolframInput"
-                className="form-control holder"
+                id="wolfram-input"
+                className="form-control holder wolfram-input"
                 placeholder="Wolfram code"
-                aria-label="Wolfram code"
+                aria-label="Wolfram code input"
                 aria-describedby="button-translate"
                 value={input}
                 onChange={handleInputChange}
               />
-              <div className="input-group-append">
-                <button
-                  className="btn"
-                  type="button"
-                  id="button-translate"
-                  onClick={handleButtonClick}>
-                  Traduzir
-                </button>
-              </div>
+              <button
+                className="btn button-translate"
+                type="button"
+                id="button-translate"
+                onClick={handleButtonClick}>
+                Traduzir
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div className="container-fluid">
         <div className="card-deck mb-3 text-center">
-          <div id="wolframDisplay" className="card mb-4 col">
+          <div id="wolfram-display" className="card mb-4 col">
             <div className="card-header">
               <h4 className="my-0 font-weight-normal">Input em Wolfram:</h4>
             </div>
@@ -70,7 +75,7 @@ const Home = () => {
               </h1>
             </div>
           </div>
-          <div id="latexOutput" className="card mb-4 col">
+          <div id="latex-output" className="card mb-4 col">
             <div className="card-header">
               <h4 className="my-0 font-weight-normal">Output em LaTeX:</h4>
             </div>
@@ -80,7 +85,7 @@ const Home = () => {
               </h1>
             </div>
           </div>
-          <div id="latexRender" className="card mb-4 col">
+          <div id="latex-render" className="card mb-4 col">
             <div className="card-header">
               <h4 className="my-0 font-weight-normal">LaTeX Renderizado:</h4>
             </div>
@@ -92,18 +97,18 @@ const Home = () => {
               </h1>
             </div>
           </div>
-        </div>
-      </div>
-      <div id="tokenOutput" className="card mb-4 col">
-        <div className="card-header">
-          <h4 className="my-0 font-weight-normal text-center">
-            Input tokenizado:
-          </h4>
-        </div>
-        <div className="card-body">
-          <h1 className="card-title pricing-card-title">
-            <pre>{JSON.stringify(tokens, null, 2)}</pre>
-          </h1>
+          <div id="token-output" className="card mb-4 col">
+            <div className="card-header">
+              <h4 className="my-0 font-weight-normal text-center">
+                Input tokenizado:
+              </h4>
+            </div>
+            <div className="card-body">
+              <h1 className="card-title pricing-card-title">
+                <pre>{JSON.stringify(tokens, null, 2)}</pre>
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
     </div>
