@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact";
@@ -12,7 +12,7 @@ const App = () => {
   const setLatexCode = useState("");
 
   return (
-    <Router>
+    <HashRouter>
       <div className="body-content">
         <Navbar />
         <Routes>
@@ -22,7 +22,7 @@ const App = () => {
         </Routes>
         <Footer />
       </div>
-    </Router>
+    </HashRouter>
   );
 };
 
