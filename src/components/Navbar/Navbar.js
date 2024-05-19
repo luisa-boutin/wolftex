@@ -25,7 +25,7 @@ const Navbar = () => {
     <nav className="navbar fixed-top navbar-expand-lg px-3">
       <div className="navbar-brand">
         <span id="wolf">Wolf</span>
-        <span className="tex">Tex</span>.js
+        <span className="tex">TeX</span>.js
       </div>
       <button
         className="navbar-toggler"

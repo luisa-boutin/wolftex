@@ -28,8 +28,8 @@ const Home = () => {
   const wrappedLatexCode = `$$${translatedLatex}$$`;
 
   return (
-    <div>
-      <div className="my-5">
+    <div className="container sidebar-right">
+      <div className="my-5 ">
         <div id="greeting-card" className="text-center intro-card">
           <div className="container py-5">
             <header>
@@ -62,9 +62,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="container-fluid">
-        <div className="card-deck mb-3 text-center">
+        <div className="card-deck mb-3 text-center my-5">
           <div id="wolfram-display" className="card mb-4 col">
             <div className="card-header">
               <h4 className="my-0 font-weight-normal">
