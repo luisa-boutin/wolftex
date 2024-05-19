@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -22,10 +23,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar fixed-top navbar-expand-lg px-3">
-      <a className="navbar-brand" href="/">
+      <div className="navbar-brand">
         <span id="wolf">Wolf</span>
         <span className="tex">Tex</span>.js
-      </a>
+      </div>
       <button
         className="navbar-toggler"
         type="button"
@@ -39,19 +40,19 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item active">
-            <a className="nav-link" href="/">
+            <Link className="nav-link" to="/">
               {t("btn-home")}
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/about">
+            <Link className="nav-link" to="/about">
               {t("btn-about")}
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/contact">
+            <Link className="nav-link" to="/contact">
               {t("btn-contact")}
-            </a>
+            </Link>
           </li>
         </ul>
         <div className="ms-auto">
