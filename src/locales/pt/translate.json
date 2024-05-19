@@ -1,0 +1,16 @@
+{
+  "greeting": "Insira sua expressão em Wolfram Mathematica no campo abaixo para obter a tradução para LaTeX.",
+  "description": "Breve descrição da aplicação.",
+  "theme-light": "Claro",
+  "theme-dark": "Escuro",
+  "btn-translate": "Idiomas",
+  "btn-themes": "Temas",
+  "btn-home": "Home",
+  "btn-about": "Sobre",
+  "btn-contact": "Contato",
+  "card-title-wolfram-input": "Input em Wolfram",
+  "card-title-latex-output": "Output em LaTeX",
+  "card-title-latex-render": "LaTeX Renderizado",
+  "card-title-tokenized-input": "Input Tokenizado",
+  "btn-tokenize": "Traduzir"
+}

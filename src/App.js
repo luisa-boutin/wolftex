@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
 import "./themes.css";
+import "./components/Internationalization/i18n.js";
 
 const App = () => {
   const setLatexCode = useState("");

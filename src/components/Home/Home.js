@@ -4,6 +4,7 @@ import { convertTokensToLatex } from "../Parser/Translator";
 import "./Home.css";
 import "katex/dist/katex.min.css";
 import Latex from "react-latex";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const [translatedLatex, setLatexCode] = useState("");
@@ -22,6 +23,8 @@ const Home = () => {
     setLatexCode(translatedLatex);
   };
 
+  const { t } = useTranslation();
+
   const wrappedLatexCode = `$$${translatedLatex}$$`;
 
   return (
@@ -36,10 +39,7 @@ const Home = () => {
               </h1>
             </header>
             <main>
-              <p className="m-5">
-                Insira sua expressão em Wolfram Mathematica no campo abaixo para
-                obter a tradução para LaTeX.
-              </p>
+              <p className="m-5">{t("greeting")}</p>
             </main>
             <div className="input-group">
               <input
@@ -57,7 +57,7 @@ const Home = () => {
                 type="button"
                 id="button-translate"
                 onClick={handleButtonClick}>
-                Traduzir
+                {t("btn-tokenize")}
               </button>
             </div>
           </div>
@@ -67,7 +67,9 @@ const Home = () => {
         <div className="card-deck mb-3 text-center">
           <div id="wolfram-display" className="card mb-4 col">
             <div className="card-header">
-              <h4 className="my-0 font-weight-normal">Input em Wolfram:</h4>
+              <h4 className="my-0 font-weight-normal">
+                {t("card-title-wolfram-input")}
+              </h4>
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
@@ -77,7 +79,9 @@ const Home = () => {
           </div>
           <div id="latex-output" className="card mb-4 col">
             <div className="card-header">
-              <h4 className="my-0 font-weight-normal">Output em LaTeX:</h4>
+              <h4 className="my-0 font-weight-normal">
+                {t("card-title-latex-output")}
+              </h4>
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
@@ -87,7 +91,9 @@ const Home = () => {
           </div>
           <div id="latex-render" className="card mb-4 col">
             <div className="card-header">
-              <h4 className="my-0 font-weight-normal">LaTeX Renderizado:</h4>
+              <h4 className="my-0 font-weight-normal">
+                {t("card-title-latex-render")}
+              </h4>
             </div>
             <div className="card-body">
               <h1 className="card-title pricing-card-title">
@@ -100,7 +106,7 @@ const Home = () => {
           <div id="token-output" className="card mb-4 col">
             <div className="card-header">
               <h4 className="my-0 font-weight-normal text-center">
-                Input tokenizado:
+                {t("card-title-tokenized-input")}
               </h4>
             </div>
             <div className="card-body">
