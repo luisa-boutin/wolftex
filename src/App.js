@@ -10,14 +10,10 @@ import "./themes.css";
 import "./components/Internationalization/i18n.js";
 
 const App = () => {
-  const getBasename = () => {
-    return window.location.hostname === "localhost" ? "/" : "/wolftex";
-  };
-
   const setLatexCode = useState("");
 
   return (
-    <HashRouter basename={getBasename()}>
+    <HashRouter>
       <div className="body-content">
         <Navbar />
         <Routes>
