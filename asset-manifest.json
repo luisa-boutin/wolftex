@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/wolftex/static/css/main.930f743b.css",
-    "main.js": "/wolftex/static/js/main.1cb52ecb.js",
+    "main.js": "/wolftex/static/js/main.053b8f57.js",
     "static/media/texgyredejavu-math.otf": "/wolftex/static/media/texgyredejavu-math.e8a05bbd18222509dd83.otf",
     "static/media/KaTeX_AMS-Regular.ttf": "/wolftex/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/wolftex/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
@@ -65,10 +65,10 @@
     "static/media/KaTeX_Size3-Regular.woff2": "/wolftex/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/wolftex/index.html",
     "main.930f743b.css.map": "/wolftex/static/css/main.930f743b.css.map",
-    "main.1cb52ecb.js.map": "/wolftex/static/js/main.1cb52ecb.js.map"
+    "main.053b8f57.js.map": "/wolftex/static/js/main.053b8f57.js.map"
   },
   "entrypoints": [
     "static/css/main.930f743b.css",
-    "static/js/main.1cb52ecb.js"
+    "static/js/main.053b8f57.js"
   ]
 }
