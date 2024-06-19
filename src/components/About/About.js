@@ -34,6 +34,10 @@ const About = () => {
           <p>
             Product[i^2, {"{"}i, 1, n{"}"}]
           </p>
+          <p>{t("about-exp8-name")}</p>
+          <p>
+            Integrate[Cos[2x^2], {"{"}x, 0, 1{"}"}]
+          </p>
         </div>
       </section>
 

@@ -1,0 +1,51 @@
+.about-container {
+    margin: 50px;
+    font-family: Arial, sans-serif;
+}
+
+.about-container h1,
+.about-container h2 {
+    color: #333;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.code-example pre {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.code-example code {
+    color: #d14;
+    font-family: Consolas, 'Courier New', monospace;
+}
+
+.faq p {
+    margin-bottom: 10px;
+}
+
+.faq strong {
+    color: #0056b3;
+}
+
+.release-notes ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.release-notes li {
+    margin-bottom: 5px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.release-notes li::before {
+    content: "•";
+    color: #0056b3;
+    position: absolute;
+    left: 0;
+}
